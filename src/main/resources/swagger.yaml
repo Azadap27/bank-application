@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: Bank Application - API Specification
+  description: |-
+    This is a sample Bank Application developed with Spring Boot based on the OpenAPI 3.0.3 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). 
+
+    Some useful links:
+    - [The Bank Application repository](https://github.com/Azadap27/bank-application)
+    - [The source API definition for the Bank Application]()
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+tags:
+  - name: account
+    description: Operations on account
+  - name: person
+    description: Operations about person
+paths:
+  /account:
+    post:
+      tags:
+        - account
+      summary: Create a new account in the bank
+      description: Create a new account in the bank.
+      operationId: createAccount
+      requestBody:
+        description: Create a new account in the bank
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        '200':
+          description: Account Created Successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Bad request
+        '405':
+          description: Method not allowed
+    get:
+      tags:
+        - account
+      summary: Get account details
+      description: Get account details including account balance.
+      operationId: getAccount
+      responses:
+        '200':
+          description: Account details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+  /person:
+    get:
+      tags:
+        - person
+      summary: Retrieve person information
+      description: Get person details.
+      operationId: getPerson
+      responses:
+        '200':
+          description: Person details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+  /transfer:
+    post:
+      tags:
+        - transfer
+      summary: Transfer amount to another account
+      description: Transfer amount from one account to another account.
+      operationId: transferAmount
+      requestBody:
+        description: Transfer amount to another account
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromAccount
+                - toAccount
+                - amount
+              properties:
+                fromAccount:
+                  type: string
+                toAccount:
+                  type: string
+                amount:
+                  type: integer
+                  format: int64
+        required: true
+      responses:
+        '200':
+          description: Amount Transferred Successfully.
+        '400':
+          description: Bad request
+        '405':
+          description: Method not allowed
+components:
+  schemas:
+    Person:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+        - phoneNumber
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phoneNumber:
+          type: string
+          example: '12345'
+    Account:
+      type: object
+      required:
+        - person
+      properties:
+        person:
+          $ref: '#/components/schemas/Person'
+        balance:
+          type: integer
+          format: int64
+          example: 1000
