@@ -110,10 +110,6 @@ paths:
       responses:
         '200':
           description: Amount Transferred Successfully.
-          # content:
-          #   application/json:
-          #     schema:
-          #       $ref: '#/components/schemas/Account'
         '400':
           description: Bad request
         '405':
