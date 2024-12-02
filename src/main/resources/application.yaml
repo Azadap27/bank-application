@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: Bank Application
+  datasource:
+    url: jdbc:h2:mem:BankApplicationDB
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+  h2:
+    console:
+      enabled: true
